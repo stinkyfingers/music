@@ -28,6 +28,12 @@ resource "aws_s3_bucket" "bucket" {
 EOF
 }
 
+# s3
+resource "aws_s3_bucket" "tracks" {
+  bucket = "tracks.${var.domain}"
+  acl = "public-read"
+}
+
 resource "aws_s3_bucket_public_access_block" "pab" {
   bucket = aws_s3_bucket.bucket.id
   block_public_acls   = true
