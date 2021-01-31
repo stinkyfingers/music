@@ -5,12 +5,12 @@ const music = [
   {
     name: 'Pancake Band',
     tracks: [
-      { name: 'Another Day', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBand-6-Song-Demo-AnotherDay.mp3' },
-      { name: 'Caged Dreams', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBand-6-Song-Demo-CagedDreams.mp3' },
-      { name: 'Debating', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBand-6-Song-Demo-Debating.mp3' },
-      { name: 'Half Cocked', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBand-6-Song-Demo-HalfCocked.mp3' },
-      { name: 'Holding On', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBand-6-Song-Demo-HoldingOn.mp3' },
-      { name: 'Red The Rug Dog', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBand-6-Song-Demo-RedTheRugDog.mp3' }
+      { name: 'Another Day', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBandDemo_AnotherDay.mp3' },
+      { name: 'Caged Dreams', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBandDemo_CagedDreams.mp3' },
+      { name: 'Debating', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBandDemo_Debating.mp3' },
+      { name: 'Half Cocked', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBandDemo_HalfCocked.mp3' },
+      { name: 'Holding On', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBandDemo_HoldingOn.mp3' },
+      { name: 'Red The Rug Dog', url: 'https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com/PancakeBandDemo_RedTheRugDog.mp3' }
     ]
   }
 ];
