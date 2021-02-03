@@ -15,10 +15,10 @@ const Music = () => {
             for (let i = 0; i < jsonObj.ListBucketResult.Contents.length; i++) {
               const object = jsonObj.ListBucketResult.Contents[i];
               const info = object.Key.split('_');
-              const band = info[0].match(/[A-Z][^A-Z]+/g);
-              const album = info[1].match(/[A-Z][^A-Z]+/g) || [];
-              const track = info[2].match(/[A-Z][^A-Z]+/g);
-              const item = { band: band.join(' '), album: album.join(' '), track: track.join(' ').replace('&apos;', '\'', -1), url: object.Key }
+              const band = info[0].match(/[A-Z][^A-Z]+/g).join(' ');
+              const album = info[1].match(/[A-Z0-9][^A-Z]+/g).join(' ');
+              const track = info[2].match(/[A-Z][^A-Z]+/g).join(' ').replace('&apos;', '\'', -1);
+              const item = { band, album, track, url: object.Key }
               items.push(item);
             }
           }
