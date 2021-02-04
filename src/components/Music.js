@@ -2,11 +2,14 @@ import React from 'react';
 import parser from 'fast-xml-parser';
 
 const Music = () => {
-  const [tracks, setTracks] = React.useState([]);
+  const [myTracks, setMyTracks] = React.useState([]);
+  const [otherTracks, setOtherTracks] = React.useState([]);
 
   React.useEffect(() => {
     const getTracks = () => {
-      const items = [];
+      const myBands = [];
+      const otherBands = [];
+
       return fetch('https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com')
         .then(resp => resp.text())
         .then(resp => {
@@ -19,18 +22,24 @@ const Music = () => {
               const album = info[1].match(/[A-Z0-9][^A-Z]+/g).join(' ');
               const track = info[2].match(/[A-Z][^A-Z]+/g).join(' ').replace('&apos;', '\'', -1);
               const item = { band, album, track, url: object.Key }
-              items.push(item);
+              const isOther = info[0].split('/')[0] === 'bands';
+              if (isOther) {
+                otherBands.push(item);
+                continue;
+              }
+              myBands.push(item);
             }
           }
         })
         .then(() => {
-          setTracks(items);
+          setMyTracks(myBands);
+          setOtherTracks(otherBands);
         });
     };
     getTracks();
   }, []);
 
-  const renderTracks = () => {
+  const renderTracks = (tracks) => {
     return tracks.map(track =>
       <tr key={`${track.band}-${track.album}-${track.track}`}>
         <td>{track.band}</td>
@@ -41,18 +50,37 @@ const Music = () => {
   };
 
   return <div className='Music'>
-    <table className='tracks'>
-      <thead>
-        <tr>
-          <th>Band</th>
-          <th>Album</th>
-          <th>Song</th>
-        </tr>
-      </thead>
-      <tbody>
-        {renderTracks()}
-      </tbody>
+    <div>
+      <h3>My High School Bands</h3>
+      <table className='tracks'>
+        <thead>
+          <tr>
+            <th>Band</th>
+            <th>Album</th>
+            <th>Song</th>
+          </tr>
+        </thead>
+        <tbody>
+          {renderTracks(myTracks)}
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <h3>Other High School Bands</h3>
+      <table className='tracks'>
+        <thead>
+          <tr>
+            <th>Band</th>
+            <th>Album</th>
+            <th>Song</th>
+          </tr>
+        </thead>
+        <tbody>
+          {renderTracks(otherTracks)}
+        </tbody>
     </table>
+    </div>
   </div>;
 };
 
