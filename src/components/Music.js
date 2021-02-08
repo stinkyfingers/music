@@ -4,11 +4,14 @@ import parser from 'fast-xml-parser';
 const Music = () => {
   const [myTracks, setMyTracks] = React.useState([]);
   const [otherTracks, setOtherTracks] = React.useState([]);
+  const [secretTracks, setSecretTracks] = React.useState([]);
+  const [showSecrets] = React.useState(window.location.pathname === '/secrets');
 
   React.useEffect(() => {
     const getTracks = () => {
       const myBands = [];
       const otherBands = [];
+      const secrets = [];
 
       return fetch('https://s3-us-west-1.amazonaws.com/tracks.john-shenk.com')
         .then(resp => resp.text())
@@ -27,6 +30,11 @@ const Music = () => {
                 otherBands.push(item);
                 continue;
               }
+              const isSecret = info[0].split('/')[0] === 'secrets';
+              if (isSecret) {
+                secrets.push(item);
+                continue;
+              }
               myBands.push(item);
             }
           }
@@ -34,6 +42,7 @@ const Music = () => {
         .then(() => {
           setMyTracks(myBands);
           setOtherTracks(otherBands);
+          setSecretTracks(secrets);
         });
     };
     getTracks();
@@ -81,6 +90,24 @@ const Music = () => {
         </tbody>
     </table>
     </div>
+
+    {showSecrets ?
+      <div>
+        <h3>Nonesense</h3>
+        <table className='tracks'>
+          <thead>
+            <tr>
+              <th>Band</th>
+              <th>Album</th>
+              <th>Song</th>
+            </tr>
+          </thead>
+          <tbody>
+            {renderTracks(secretTracks)}
+          </tbody>
+      </table>
+      </div>
+    : null }
   </div>;
 };
 
