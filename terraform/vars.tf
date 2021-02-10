@@ -10,6 +10,7 @@ variable "region" {
 
 variable "project" {
   type = string
+  default = "music"
 }
 
 variable "domain" {
