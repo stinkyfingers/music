@@ -20,22 +20,19 @@ const Music = () => {
             var jsonObj = parser.parse(resp);
             for (let i = 0; i < jsonObj.ListBucketResult.Contents.length; i++) {
               const object = jsonObj.ListBucketResult.Contents[i];
-              const info = object.Key.split('_');
-              const band = info[0].match(/[A-Z][^A-Z]+/g).join(' ');
-              const album = info[1].match(/[A-Z0-9][^A-Z]+/g).join(' ');
-              const track = info[2].match(/[A-Z][^A-Z]+/g).join(' ').replace('&apos;', '\'', -1);
-              const item = { band, album, track, url: object.Key }
-              const isOther = info[0].split('/')[0] === 'bands';
-              if (isOther) {
-                otherBands.push(item);
-                continue;
+              const info = object.Key.split('/');
+              const item = { group: info[0], band: info[1], album: info[2], track: info[3], url: object.Key };
+              switch (item.group) {
+                case 'john':
+                  myBands.push(item);
+                  break;
+                case 'secret':
+                  secrets.push(item);
+                  break;
+                case 'bands':
+                  otherBands.push(item);
+                  break;
               }
-              const isSecret = info[0].split('/')[0] === 'secrets';
-              if (isSecret) {
-                secrets.push(item);
-                continue;
-              }
-              myBands.push(item);
             }
           }
         })
