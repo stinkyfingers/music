@@ -2,9 +2,10 @@
   text-align: center;
 }
 
-.Music {
+.Groups {
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
 }
 
 .tracks {
@@ -14,4 +15,12 @@
 td {
   text-align: left;
   padding: .4em 1em;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+li {
+  list-style: none
 }

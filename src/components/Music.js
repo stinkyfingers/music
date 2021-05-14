@@ -1,11 +1,14 @@
 import React from 'react';
 import parser from 'fast-xml-parser';
+import _ from 'lodash';
+import Band from './Band';
 
 const Music = () => {
   const [myTracks, setMyTracks] = React.useState([]);
   const [otherTracks, setOtherTracks] = React.useState([]);
   const [secretTracks, setSecretTracks] = React.useState([]);
   const [showSecrets] = React.useState(window.location.pathname === '/secrets');
+  const [band, setBand] = React.useState();
 
   React.useEffect(() => {
     const getTracks = () => {
@@ -55,56 +58,43 @@ const Music = () => {
     );
   };
 
+  const renderBands = (items) => {
+    if (items.length < 1) return null;
+    const bands = _.reduce(items, (res, value, key) => {
+      (res[value.band] || (res[value.band] = [])).push(value)
+      return res;
+    }, {});
+    return <ul>
+      { _.map(bands, (b, key) => <li key={key}><button onClick={() => setBand(b)}>{key}</button></li>)}
+    </ul>;
+  };
+
+  const renderBand = () => {
+    return <Band tracks={band} />;
+  };
+
   return <div className='Music'>
-    <div>
-      <h3>My High School Bands</h3>
-      <table className='tracks'>
-        <thead>
-          <tr>
-            <th>Band</th>
-            <th>Album</th>
-            <th>Song</th>
-          </tr>
-        </thead>
-        <tbody>
-          {renderTracks(myTracks)}
-        </tbody>
-      </table>
-    </div>
-
-    <div>
-      <h3>Other High School Bands</h3>
-      <table className='tracks'>
-        <thead>
-          <tr>
-            <th>Band</th>
-            <th>Album</th>
-            <th>Song</th>
-          </tr>
-        </thead>
-        <tbody>
-          {renderTracks(otherTracks)}
-        </tbody>
-    </table>
-    </div>
-
-    {showSecrets ?
+    <div className='Groups'>
       <div>
-        <h3>Nonesense</h3>
-        <table className='tracks'>
-          <thead>
-            <tr>
-              <th>Band</th>
-              <th>Album</th>
-              <th>Song</th>
-            </tr>
-          </thead>
-          <tbody>
-            {renderTracks(secretTracks)}
-          </tbody>
-      </table>
+        <h3>My High School Bands/Podcasts</h3>
+        {renderBands(myTracks)}
       </div>
-    : null }
+
+      <div>
+        <h3>Other High School Bands</h3>
+        {renderBands(otherTracks)}
+      </div>
+
+      {showSecrets ?
+        <div>
+          <h3>Nonesense</h3>
+          {renderBands(secretTracks)}
+        </div>
+      : null }
+    </div>
+    <div>
+      {band ? renderBand() : null}
+    </div>
   </div>;
 };
 
